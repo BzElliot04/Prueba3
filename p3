@@ -1,0 +1,152 @@
+
+contactos = []
+
+
+def crear_contacto():
+    try:
+        nombre = input("Ingrese nombre (máx 50 caracteres): ")
+        telefono = input("Ingrese teléfono (11 dígitos): ")
+        direccion = input("Ingrese dirección (máx 60 caracteres): ")
+        correo = input("Ingrese correo electrónico: ")
+
+        if len(telefono) != 11:
+            print("El teléfono debe tener 11 dígitos.")
+            return
+        if "@" not in correo or "." not in correo:
+            print("Correo inválido.")
+            return
+
+        contacto = {
+            "nombre": nombre,
+            "telefono": telefono,
+            "direccion": direccion,
+            "correo": correo
+        }
+
+        contactos.append(contacto)
+        print("Contacto agregado correctamente.")
+    except:
+        print("Ocurrió un error al crear el contacto.")
+
+
+def listar_contactos():
+    if len(contactos) == 0:
+        print("No hay contactos.")
+    else:
+        i = 0
+        while i < len(contactos):
+            contacto = contactos[i]
+            print("Contacto", i+1)
+            print("Nombre:", contacto["nombre"])
+            print("Teléfono:", contacto["telefono"])
+            print("Dirección:", contacto["direccion"])
+            print("Correo:", contacto["correo"])
+            print("------------------------")
+            i = i + 1
+
+
+def modificar_contacto():
+    listar_contactos()
+    try:
+        indice = int(input("Ingrese el número del contacto a modificar: ")) - 1
+        if indice >= 0 and indice < len(contactos):
+            nombre = input("Nuevo nombre: ")
+            telefono = input("Nuevo teléfono (11 dígitos): ")
+            direccion = input("Nueva dirección: ")
+            correo = input("Nuevo correo electrónico: ")
+
+            if len(telefono) != 11:
+                print("El teléfono debe tener 11 dígitos.")
+                return
+            if "@" not in correo or "." not in correo:
+                print("Correo inválido.")
+                return
+
+            contactos[indice]["nombre"] = nombre
+            contactos[indice]["telefono"] = telefono
+            contactos[indice]["direccion"] = direccion
+            contactos[indice]["correo"] = correo
+
+            print("Contacto modificado.")
+        else:
+            print("Número inválido.")
+    except:
+        print("Error al modificar.")
+
+
+def eliminar_contacto():
+    listar_contactos()
+    try:
+        indice = int(input("Ingrese el número del contacto a eliminar: ")) - 1
+        if indice >= 0 and indice < len(contactos):
+            del contactos[indice]
+            print("Contacto eliminado.")
+        else:
+            print("Número inválido.")
+    except:
+        print("Error al eliminar.")
+
+
+def buscar_contacto():
+    print("Buscar por:")
+    print("1. Nombre")
+    print("2. Teléfono")
+    print("3. Dirección")
+    print("4. Correo")
+    opcion = input("Opción: ")
+    texto = input("Ingrese el dato a buscar: ")
+
+    i = 0
+    encontrado = False
+    while i < len(contactos):
+        c = contactos[i]
+        if opcion == "1" and texto in c["nombre"]:
+            encontrado = True
+        if opcion == "2" and texto in c["telefono"]:
+            encontrado = True
+        if opcion == "3" and texto in c["direccion"]:
+            encontrado = True
+        if opcion == "4" and texto in c["correo"]:
+            encontrado = True
+
+        if encontrado:
+            print("Nombre:", c["nombre"])
+            print("Teléfono:", c["telefono"])
+            print("Dirección:", c["direccion"])
+            print("Correo:", c["correo"])
+            print("------------------------")
+        i = i + 1
+    if not encontrado:
+        print("No se encontraron coincidencias.")
+
+
+def menu():
+    salir = False
+    while salir == False:
+        print("\n--- MENÚ ---")
+        print("1. Crear Contacto")
+        print("2. Modificar Contacto")
+        print("3. Eliminar Contacto")
+        print("4. Listar Contactos")
+        print("5. Buscar Contacto")
+        print("6. Salir")
+
+        opcion = input("Ingrese opción: ")
+
+        if opcion == "1":
+            crear_contacto()
+        elif opcion == "2":
+            modificar_contacto()
+        elif opcion == "3":
+            eliminar_contacto()
+        elif opcion == "4":
+            listar_contactos()
+        elif opcion == "5":
+            buscar_contacto()
+        elif opcion == "6":
+            salir = True
+        else:
+            print("Opción inválida.")
+
+
+menu()
